@@ -121,9 +121,33 @@ STATIC_URL = 'static/'
 
 
 JAZZMIN_SETTINGS = {
-    # ... klidně zatím jen tohle minimum ...
-    "changeform_format": "single",  # globálně bez tabů
-    "changeform_format_overrides": {
-        "auth.user": "single",      # jistota, že User formulář nebude tabovaný
+    "site_title": "GTH | HR administrace",
+    "site_header": "GTH | HR administrace",
+    "site_brand": "GTH HR",
+    "welcome_sign": "Vítej v GTH HR administraci",
+
+
+
+    # Ikonky v levém menu (Font Awesome)
+    "icons": {
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "provozy.Provoz": "fas fa-store",
+        "provozy.UzivatelskyProfil": "fas fa-id-badge",
     },
+
+    # Postranní menu
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+
+    # Formát detail formulářů (aby nebyly taby, jak jsme řešili)
+    "changeform_format": "single",
+    "changeform_format_overrides": {
+        "auth.user": "single",
+    },
+
+    # UI builder (live změna barev vpravo nahoře)
+    "show_ui_builder": True,
 }

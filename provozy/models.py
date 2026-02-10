@@ -26,7 +26,7 @@ class Provoz(models.Model):
         profily = self.uzivatele.select_related("user").all()
         return ", ".join(p.user.username for p in profily)
 
-    spravci_jmena.short_description = "Správci (uživatelé)"
+    spravci_jmena.short_description = "Správci"
 
 
 class UzivatelskyProfil(models.Model):

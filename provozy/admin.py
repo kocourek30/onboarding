@@ -14,7 +14,7 @@ class ProvozAdmin(admin.ModelAdmin):
         "psc",
         "manazer",
         "email",
-        "spravci_jmena",   # nový sloupec
+        "spravci_jmena",
     )
     search_fields = (
         "cislo_provozu",
@@ -25,9 +25,12 @@ class ProvozAdmin(admin.ModelAdmin):
         "psc",
         "manazer",
         "email",
-        "uzivatele__username",  # umožní hledat i podle uživatele
+        # nic přes uživatele sem nedávej
     )
-    list_filter = ("mesto", "kraj", "manazer")
+    list_filter = ("cislo_provozu", "mesto", "kraj", "manazer", )
+    list_per_page = 10000
+
+    list_filter = ("cislo_provozu", "mesto", "kraj", "manazer", )
     list_per_page = 10000
 
 
