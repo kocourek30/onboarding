@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 class Provoz(models.Model):
     cislo_provozu = models.IntegerField("Číslo provozu")
@@ -17,9 +21,13 @@ class Provoz(models.Model):
     def __str__(self):
         return f"{self.cislo_provozu} – {self.nazev}"
 
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+    def spravci_jmena(self):
+        # uzivatele = related_name z ManyToMany v UzivatelskyProfil
+        profily = self.uzivatele.select_related("user").all()
+        return ", ".join(p.user.username for p in profily)
+
+    spravci_jmena.short_description = "Správci (uživatelé)"
+
 
 class UzivatelskyProfil(models.Model):
     ROLE_HR = "HR"
@@ -49,5 +57,4 @@ def create_or_update_profil(sender, instance, created, **kwargs):
     if created:
         UzivatelskyProfil.objects.create(user=instance)
     else:
-        # zajistí, že profil existuje i u starších uživatelů
         UzivatelskyProfil.objects.get_or_create(user=instance)

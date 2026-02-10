@@ -118,3 +118,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+JAZZMIN_SETTINGS = {
+    # ... klidně zatím jen tohle minimum ...
+    "changeform_format": "single",  # globálně bez tabů
+    "changeform_format_overrides": {
+        "auth.user": "single",      # jistota, že User formulář nebude tabovaný
+    },
+}
