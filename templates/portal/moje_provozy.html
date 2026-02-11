@@ -23,17 +23,47 @@
                 {{ provoz.psc }} {{ provoz.mesto }}
               </p>
               {% if provoz.manazer %}
-                <p class="card-text small text-muted mb-0">
+                <p class="card-text small text-muted mb-2">
                   <i class="fa-solid fa-user-tie me-1"></i>
                   Manažer: {{ provoz.manazer }}
                 </p>
               {% endif %}
-            </div>
-            <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
-              <a href="#" class="btn btn-sm btn-gth w-100">
-                <i class="fa-solid fa-file-signature me-1"></i>
-                Nový osobní dotazník
-              </a>
+
+              {% with zamestnanci=provoz.dotazniky.all %}
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="small fw-semibold text-uppercase text-muted">
+                    <i class="fa-solid fa-users me-1" style="color:#9dc51d;"></i>
+                    Zaměstnanci
+                  </span>
+                  <span class="badge rounded-pill text-bg-light">
+                    {{ zamestnanci|length }}
+                  </span>
+                </div>
+
+                {% if zamestnanci %}
+                  <ul class="list-group list-group-flush small">
+                    {% for d in zamestnanci %}
+                      <li class="list-group-item px-0 d-flex justify-content-between align-items-start border-0">
+                        <div class="me-2">
+                          <div class="fw-semibold">
+                            {{ d.jmeno }} {{ d.prijmeni }}
+                          </div>
+                          <div class="text-muted">
+                            {{ d.pozice }}
+                          </div>
+                        </div>
+                        <div class="text-muted text-end">
+                          <div>{{ d.datum_vytvoreni|date:"d.m.Y" }}</div>
+                        </div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <p class="card-text small text-muted mb-0">
+                    Zatím zde nejsou žádní zaměstnanci.
+                  </p>
+                {% endif %}
+              {% endwith %}
             </div>
           </div>
         </div>

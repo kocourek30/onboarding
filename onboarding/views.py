@@ -1,9 +1,11 @@
 from datetime import date
 import os
+from io import BytesIO
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files.base import ContentFile
 from django.db import models
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -15,7 +17,9 @@ from docx import Document
 from provozy.models import Provoz
 from .forms import OsobniDotaznikForm
 from .models import OsobniDotaznik, Pozice
-
+from docx2pdf import convert
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 
 # -----------------------
 # DOCX – pracovní smlouva
@@ -56,7 +60,7 @@ def smlouva_pracovni_pomer_docx(request, pk):
         "workplace_address": f"{client_name}, {client_address}" if client_address else client_name,
         "operation_number": str(provoz.cislo_provozu),
 
-        # nový placeholder pro klienta (název + adresa)
+        # klient (název + adresa)
         "client": f"{client_name}, {client_address}" if client_address else client_name,
 
         "contract_type": (
@@ -85,19 +89,46 @@ def smlouva_pracovni_pomer_docx(request, pk):
                 for paragraph in cell.paragraphs:
                     replace_text_in_paragraph(paragraph, ctx)
 
-    from io import BytesIO
     buf = BytesIO()
     document.save(buf)
     buf.seek(0)
 
-    filename = f"smlouva_{obj.prijmeni}_{obj.jmeno}.docx"
+    filename_docx = f"smlouva_{obj.prijmeni}_{obj.jmeno}.docx"
 
+    # uložit DOCX do FileFieldu (přepíše starší verzi)
+    if hasattr(obj, "smlouva_pracovni_pomer"):
+        obj.smlouva_pracovni_pomer.save(
+            filename_docx,
+            ContentFile(buf.getvalue()),
+            save=True,
+        )
+
+    # pokus o vytvoření PDF z uloženého DOCX
+    if getattr(obj, "smlouva_pracovni_pomer", None):
+        docx_path = obj.smlouva_pracovni_pomer.path
+        pdf_filename = filename_docx.replace(".docx", ".pdf")
+        pdf_rel_path = os.path.join("smlouvy", pdf_filename)
+        pdf_abs_path = os.path.join(settings.MEDIA_ROOT, pdf_rel_path)
+
+        os.makedirs(os.path.dirname(pdf_abs_path), exist_ok=True)
+
+        try:
+            convert(docx_path, pdf_abs_path)
+            if hasattr(obj, "smlouva_pracovni_pomer_pdf"):
+                obj.smlouva_pracovni_pomer_pdf.name = pdf_rel_path
+                obj.save(update_fields=["smlouva_pracovni_pomer_pdf"])
+        except Exception:
+            # když převod selže, PDF prostě nebude
+            pass
+
+    # vrátit DOCX jako download
     response = HttpResponse(
         buf.getvalue(),
         content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     )
-    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+    response["Content-Disposition"] = f'attachment; filename="{filename_docx}"'
     return response
+
 
 
 # -----------------------
@@ -226,3 +257,13 @@ class OsobniDotaznikCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy("dotaznik_detail", args=[self.object.pk])
+
+
+@login_required
+def dotaznik_delete(request, pk):
+    dotaznik = get_object_or_404(OsobniDotaznik, pk=pk, vytvoril=request.user)
+    if request.method == "POST":
+        dotaznik.delete()
+        messages.success(request, "Dotazník byl odstraněn.")
+        return redirect("dotaznik_list")
+    return redirect("dotaznik_list")

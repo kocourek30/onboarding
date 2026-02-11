@@ -1,5 +1,7 @@
 {% extends "portal/base_portal.html" %}
 
+{% block menu_dotaznik_list_active %}active{% endblock %}
+
 {% block header_title %}
 <i class="fa-solid fa-list me-2"></i> Osobní dotazníky
 {% endblock %}
@@ -72,7 +74,7 @@
 
   {# TABULKA #}
   <div class="card-body p-0">
-    <table class="table table-striped mb-0">
+    <table class="table table-striped table-hover mb-0">
       <thead>
         <tr>
           <th>Jméno</th>
@@ -90,13 +92,59 @@
             <td>{{ d.pozice }}</td>
             <td>{{ d.datum_vytvoreni|date:"d.m.Y H:i" }}</td>
             <td class="text-end">
-              <a href="{% url 'dotaznik_detail' d.pk %}" class="btn btn-sm btn-outline-secondary">
-                <i class="fa-solid fa-eye"></i>
-              </a>
-              <a href="{% url 'dotaznik_update' d.pk %}" class="btn btn-sm btn-gth ms-1">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a>
-            </td>
+  {# Dotazník #}
+  <div class="btn-group btn-group-sm me-1" role="group" aria-label="Dotazník">
+    <a href="{% url 'dotaznik_detail' d.pk %}"
+       class="btn btn-outline-secondary"
+       title="Zobrazit dotazník">
+      <i class="fa-solid fa-eye me-1"></i> Detail
+    </a>
+    <a href="{% url 'dotaznik_update' d.pk %}"
+       class="btn btn-gth"
+       title="Upravit dotazník">
+      <i class="fa-solid fa-pen-to-square me-1"></i> Upravit
+    </a>
+  </div>
+
+  {# Smlouvy #}
+  <div class="btn-group btn-group-sm me-1" role="group" aria-label="Smlouva">
+    <a href="{% url 'smlouva_pracovni_pomer' d.pk %}"
+       class="btn btn-outline-success"
+       title="Vygenerovat novou pracovní smlouvu (DOCX)">
+      <i class="fa-solid fa-file-word me-1"></i> DOCX
+    </a>
+    {% if d.smlouva_pracovni_pomer %}
+      <a href="{{ d.smlouva_pracovni_pomer.url }}"
+         class="btn btn-outline-primary"
+         title="Stáhnout uloženou verzi pracovní smlouvy (DOCX)"
+         target="_blank">
+        <i class="fa-solid fa-download me-1"></i> Uložené DOCX
+      </a>
+    {% endif %}
+    {% if d.smlouva_pracovni_pomer_pdf %}
+      <a href="{{ d.smlouva_pracovni_pomer_pdf.url }}"
+         class="btn btn-outline-danger"
+         title="Stáhnout uloženou verzi pracovní smlouvy (PDF)"
+         target="_blank">
+        <i class="fa-solid fa-file-pdf me-1"></i> PDF
+      </a>
+    {% endif %}
+  </div>
+
+  {# Smazání #}
+  <form method="post"
+        action="{% url 'dotaznik_delete' d.pk %}"
+        class="d-inline"
+        onsubmit="return confirm('Opravdu chceš tento dotazník odstranit?');">
+    {% csrf_token %}
+    <button type="submit"
+            class="btn btn-sm btn-outline-danger"
+            title="Odstranit dotazník">
+      <i class="fa-solid fa-trash-can"></i>
+    </button>
+  </form>
+</td>
+
           </tr>
         {% empty %}
           <tr>

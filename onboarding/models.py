@@ -183,5 +183,19 @@ class OsobniDotaznik(models.Model):
         verbose_name_plural = "Osobní dotazníky"
         ordering = ["-datum_vytvoreni"]
 
+    smlouva_pracovni_pomer = models.FileField(
+        "Pracovní smlouva (DOCX)",
+        upload_to="smlouvy/",
+        blank=True,
+        null=True,
+    )
+
+    smlouva_pracovni_pomer_pdf = models.FileField(
+        "Pracovní smlouva (PDF)",
+        upload_to="smlouvy/pdf",
+        blank=True,
+        null=True,
+    )
+
     def __str__(self):
         return f"{self.jmeno} {self.prijmeni} – {self.provoz}"

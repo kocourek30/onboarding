@@ -1,5 +1,7 @@
 {% extends "portal/base_portal.html" %}
 
+{% block menu_dotaznik_new_active %}active{% endblock %}
+
 {% block header_title %}
 <i class="fa-solid fa-user-pen me-2"></i> Nový osobní dotazník
 {% endblock %}
@@ -314,49 +316,48 @@
       </div>
 
       {# ZAŘAZENÍ #}
-<div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
-  <h5 class="mb-0">
-    <i class="fa-solid fa-briefcase me-2 text-success"></i>
-    Zařazení
-  </h5>
-</div>
+      <div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-briefcase me-2 text-success"></i>
+          Zařazení
+        </h5>
+      </div>
 
-<div class="col-md-6">
-  <label class="form-label">{{ form.provoz.label }}:</label>
-  {{ form.provoz }}
-</div>
-<div class="col-md-6">
-  <label class="form-label">{{ form.pozice.label }}:</label>
-  {{ form.pozice }}
-</div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.provoz.label }}:</label>
+        {{ form.provoz }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.pozice.label }}:</label>
+        {{ form.pozice }}
+      </div>
 
-<div class="col-md-4">
-  <label class="form-label">{{ form.typ_pomeru.label }}:</label>
-  {{ form.typ_pomeru }}
-</div>
-<div class="col-md-4">
-  <label class="form-label">{{ form.pomer_do.label }}:</label>
-  {{ form.pomer_do }}
-  <div class="form-text">Vyplň pouze u poměru na dobu určitou.</div>
-</div>
-<div class="col-md-4">
-  <label class="form-label">{{ form.nastup_datum.label }}:</label>
-  {{ form.nastup_datum }}
-</div>
+      <div class="col-md-4">
+        <label class="form-label">{{ form.typ_pomeru.label }}:</label>
+        {{ form.typ_pomeru }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{{ form.pomer_do.label }}:</label>
+        {{ form.pomer_do }}
+        <div class="form-text">Vyplň pouze u poměru na dobu určitou.</div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{{ form.nastup_datum.label }}:</label>
+        {{ form.nastup_datum }}
+      </div>
 
-<div class="col-md-4">
-  <label class="form-label">{{ form.zkusebni_doba_mesice.label }}:</label>
-  {{ form.zkusebni_doba_mesice }}
-</div>
-<div class="col-md-4">
-  <label class="form-label">{{ form.tydenni_uvazek_hodin.label }}:</label>
-  {{ form.tydenni_uvazek_hodin }}
-</div>
-<div class="col-md-4">
-  <label class="form-label">{{ form.rozvrzeni_pracovni_doby.label }}:</label>
-  {{ form.rozvrzeni_pracovni_doby }}
-</div>
-
+      <div class="col-md-4">
+        <label class="form-label">{{ form.zkusebni_doba_mesice.label }}:</label>
+        {{ form.zkusebni_doba_mesice }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{{ form.tydenni_uvazek_hodin.label }}:</label>
+        {{ form.tydenni_uvazek_hodin }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{{ form.rozvrzeni_pracovni_doby.label }}:</label>
+        {{ form.rozvrzeni_pracovni_doby }}
+      </div>
 
       <div class="col-12 mt-4 d-flex justify-content-end">
         <button type="submit" class="btn btn-gth">

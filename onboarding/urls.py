@@ -11,4 +11,7 @@ urlpatterns = [
     views.smlouva_pracovni_pomer_docx,
     name="smlouva_pracovni_pomer",
 ),
+    # urls.py
+    path("dotaznik/<int:pk>/delete/", views.dotaznik_delete, name="dotaznik_delete")
+
     ]

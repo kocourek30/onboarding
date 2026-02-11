@@ -17,71 +17,117 @@
     <style>
       :root {
         --gth-green: #9dc51d;
+        /* o něco tmavší varianta (cca -30 %) */
+        --gth-green-dark: #6f8f14;
       }
 
       body {
         min-height: 100vh;
+        background: #f5f6f8;
       }
+
       .sidebar {
         min-height: 100vh;
-        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        background: var(--gth-green-dark);
+        color: #ffffff;
       }
+
       .sidebar-header {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18);
       }
+
       .brand-badge {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--gth-green);
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        background: #ffffff;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: #fff;
+        color: var(--gth-green-dark);
       }
+
       .sidebar .nav-link {
-        border-radius: 0.4rem;
-        color: #495057;
+        border-radius: 0.6rem;
+        color: #e5f3c7;
+        font-size: 0.9rem;
+        padding-top: 0.55rem;
+        padding-bottom: 0.55rem;
       }
-      .sidebar .nav-link:hover {
-        background-color: rgba(157, 197, 29, 0.12);
-        color: #2b3b01;
-      }
-      .sidebar .nav-link.active {
-        background-color: var(--gth-green);
-        color: #fff;
-      }
+
       .sidebar .nav-link i {
-        width: 1.2rem;
+        width: 1.25rem;
       }
+
+      .sidebar .nav-link:hover {
+        background-color: rgba(0, 0, 0, 0.18);
+        color: #ffffff;
+      }
+
+      .sidebar .nav-link.active {
+        background-color: #ffffff;
+        color: #2b3b01;
+        font-weight: 600;
+      }
+
+      .sidebar .nav-link.active i {
+        color: var(--gth-green-dark);
+      }
+
+      .sidebar-section-title {
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #d0e6a1;
+        margin: 0.75rem 0 0.25rem;
+      }
+
       .logout-link {
-        color: #6c757d;
+        color: #e5f3c7;
       }
+
       .logout-link:hover {
-        color: #343a40;
+        color: #ffffff;
       }
+
       .top-bar {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        background: #ffffff;
       }
+
+      .top-bar-title {
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
       .btn-gth {
         background-color: var(--gth-green);
         border-color: var(--gth-green);
         color: #fff;
       }
+
       .btn-gth:hover {
         background-color: #86aa18;
         border-color: #86aa18;
         color: #fff;
       }
+
+      @media (max-width: 767.98px) {
+        .sidebar {
+          min-height: auto;
+        }
+      }
     </style>
 
     {% block extra_head %}{% endblock %}
   </head>
-  <body class="bg-light">
+  <body>
     <div class="container-fluid">
       <div class="row">
         <!-- Levý sidebar -->
-        <nav class="col-12 col-md-3 col-lg-2 bg-white sidebar py-3 d-flex flex-column">
+        <nav class="col-12 col-md-3 col-lg-2 sidebar py-3 d-flex flex-column">
           <div class="px-3 pb-3 sidebar-header">
             <div class="d-flex align-items-center gap-2">
               <div class="brand-badge">
@@ -89,14 +135,18 @@
               </div>
               <div>
                 <div class="fw-semibold">GTH HR portál</div>
-                <div class="text-muted small">
+                <div class="text-light small opacity-75">
                   {{ request.user.username }}
                 </div>
               </div>
             </div>
           </div>
 
-          <ul class="nav nav-pills flex-column px-3 mt-3">
+          <div class="px-3 mt-3">
+            <div class="sidebar-section-title">Navigace</div>
+          </div>
+
+          <ul class="nav nav-pills flex-column px-3 mt-1">
             <li class="nav-item mb-1">
               <a href="{% url 'portal:moje_provozy' %}"
                  class="nav-link d-flex align-items-center {% block menu_provozy_active %}{% endblock %}">
@@ -105,27 +155,23 @@
               </a>
             </li>
 
-            <!-- Osobní dotazník – odkazy s ikonami -->
             <li class="nav-item mb-1">
               <a href="{% url 'dotaznik_create' %}"
-                 class="nav-link d-flex align-items-center">
+                 class="nav-link d-flex align-items-center {% block menu_dotaznik_new_active %}{% endblock %}">
                 <i class="fa-solid fa-user-pen me-2"></i>
                 <span>Nový osobní dotazník</span>
               </a>
             </li>
             <li class="nav-item mb-1">
               <a href="{% url 'dotaznik_list' %}"
-                 class="nav-link d-flex align-items-center">
+                 class="nav-link d-flex align-items-center {% block menu_dotaznik_list_active %}{% endblock %}">
                 <i class="fa-solid fa-users-line me-2"></i>
-                <span>Moje osobní dotazníky</span>
+                <span>Osobní dotazníky</span>
               </a>
             </li>
-
-
-            <!-- další položky menu přidáme později -->
           </ul>
 
-          <div class="mt-auto px-3 pt-4 small">
+          <div class="mt-auto px-3 pt-4 pb-2 small border-top border-light border-opacity-25">
             <a href="{% url 'logout' %}" class="logout-link text-decoration-none">
               <i class="fa-solid fa-right-from-bracket me-1"></i> Odhlásit se
             </a>
@@ -134,8 +180,8 @@
 
         <!-- Obsah -->
         <main class="col-12 col-md-9 col-lg-10 p-0">
-          <div class="top-bar bg-white px-4 py-2 d-flex justify-content-between align-items-center">
-            <div class="fw-semibold">
+          <div class="top-bar px-4 py-2 d-flex justify-content-between align-items-center">
+            <div class="top-bar-title">
               {% block header_title %}{% endblock %}
             </div>
           </div>
