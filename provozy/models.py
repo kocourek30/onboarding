@@ -1,7 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
 
 
 class Provoz(models.Model):
@@ -21,40 +19,36 @@ class Provoz(models.Model):
     def __str__(self):
         return f"{self.cislo_provozu} – {self.nazev}"
 
-    def spravci_jmena(self):
-        # uzivatele = related_name z ManyToMany v UzivatelskyProfil
-        profily = self.uzivatele.select_related("user").all()
-        return ", ".join(p.user.username for p in profily)
 
-    spravci_jmena.short_description = "Správci"
-
-
-class UzivatelskyProfil(models.Model):
-    ROLE_HR = "HR"
-    ROLE_OBLASTNI = "OBL"
-    ROLE_MANAZER = "MAN"
+class Uzivatel(AbstractUser):
+    HR = "HR"
+    OBLASTNI = "OBL"
+    MANAZER = "MAN"
 
     ROLE_CHOICES = [
-        (ROLE_HR, "HR"),
-        (ROLE_OBLASTNI, "Oblastní manažer"),
-        (ROLE_MANAZER, "Manažer provozu"),
+        (HR, "HR"),
+        (OBLASTNI, "Oblastní manažer"),
+        (MANAZER, "Manažer provozu"),
     ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profil")
-    role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=ROLE_MANAZER)
-    provozy = models.ManyToManyField(Provoz, blank=True, related_name="uzivatele")
+    role = models.CharField(
+        "Role",
+        max_length=3,
+        choices=ROLE_CHOICES,
+        default=MANAZER,
+    )
+    provozy = models.ManyToManyField(
+        Provoz,
+        blank=True,
+        related_name="uzivatele",
+        verbose_name="Provozy",
+    )
 
     class Meta:
-        verbose_name = "Uživatelský profil"
-        verbose_name_plural = "Uživatelské profily"
+        verbose_name = "Uživatel"
+        verbose_name_plural = "Uživatelé"
 
     def __str__(self):
-        return f"{self.user.username} ({self.get_role_display()})"
-
-
-@receiver(post_save, sender=User)
-def create_or_update_profil(sender, instance, created, **kwargs):
-    if created:
-        UzivatelskyProfil.objects.create(user=instance)
-    else:
-        UzivatelskyProfil.objects.get_or_create(user=instance)
+        if self.is_superuser:
+            return f"{self.username} (Superadmin)"
+        return f"{self.username} ({self.get_role_display()})"

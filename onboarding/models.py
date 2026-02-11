@@ -22,6 +22,51 @@ class Pozice(models.Model):
 
 
 class OsobniDotaznik(models.Model):
+    TYP_POMERU_CHOICES = [
+        ("DOBA_NEURCITA", "Pracovní poměr na dobu neurčitou"),
+        ("DOBA_URCITA", "Pracovní poměr na dobu určitou"),
+    ]
+    ROZVRZENI_CHOICES = [
+        ("ROVNOMERNE", "Rovnoměrné rozvržení pracovní doby"),
+        ("NEROVNOMERNE", "Nerovnoměrné rozvržení pracovní doby"),
+    ]
+
+    typ_pomeru = models.CharField(
+        "Typ pracovního poměru",
+        max_length=20,
+        choices=TYP_POMERU_CHOICES,
+        default="DOBA_NEURCITA",
+    )
+    pomer_do = models.DateField(
+        "Pracovní poměr na dobu určitou do",
+        null=True,
+        blank=True,
+    )
+    nastup_datum = models.DateField(
+        "Datum nástupu do práce",
+        null=True,
+        blank=True,
+    )
+    zkusebni_doba_mesice = models.PositiveSmallIntegerField(
+        "Zkušební doba (v měsících)",
+        null=True,
+        blank=True,
+        help_text="Max. 3 měsíce (6 u vedoucích pracovníků) podle ZP.",
+    )
+    tydenni_uvazek_hodin = models.DecimalField(
+        "Týdenní pracovní doba v hodinách",
+        max_digits=4,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Např. 40, 38.75, 37.5",
+    )
+    rozvrzeni_pracovni_doby = models.CharField(
+        "Rozvržení pracovní doby",
+        max_length=20,
+        choices=ROZVRZENI_CHOICES,
+        default="ROVNOMERNE",
+    )
     # vazby
     provoz = models.ForeignKey(
         Provoz,

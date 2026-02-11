@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     "onboarding",
 ]
 
+AUTH_USER_MODEL = "provozy.Uzivatel"
+
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/portal/provozy/"
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,18 +62,19 @@ ROOT_URLCONF = 'personalistika.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'personalistika.wsgi.application'
 
@@ -130,11 +137,14 @@ JAZZMIN_SETTINGS = {
 
     # Ikonky v levém menu (Font Awesome)
     "icons": {
-        "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
         "provozy.Provoz": "fas fa-store",
-        "provozy.UzivatelskyProfil": "fas fa-id-badge",
+        "provozy.Uzivatel": "fas fa-user",
     },
+    "changeform_format_overrides": {
+        "provozy.Uzivatel": "single",
+    },
+
 
     # Postranní menu
     "show_sidebar": True,

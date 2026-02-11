@@ -1,0 +1,135 @@
+{% extends "portal/base_portal.html" %}
+
+{% block header_title %}
+<i class="fa-solid fa-id-card me-2"></i> Osobní dotazník – detail
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div>
+      <i class="fa-solid fa-user me-2 text-success"></i>
+      <strong>{{ obj.jmeno }} {{ obj.prijmeni }}</strong>
+    </div>
+    <div>
+      <a href="{% url 'dotaznik_update' obj.pk %}" class="btn btn-sm btn-gth">
+        <i class="fa-solid fa-pen-to-square me-1"></i> Upravit
+      </a>
+      <a href="{% url 'smlouva_pracovni_pomer' obj.pk %}" class="btn btn-sm btn-outline-success ms-2">
+  <i class="fa-solid fa-file-word me-1"></i> Pracovní smlouva
+</a>
+
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-12 border-bottom pb-2 mb-2">
+        <h6 class="mb-0 text-uppercase text-muted">Osobní údaje</h6>
+      </div>
+      <div class="col-md-4">
+        <div class="fw-semibold">Jméno</div>
+        <div>{{ obj.jmeno }} {{ obj.prijmeni }}</div>
+      </div>
+      <div class="col-md-4">
+        <div class="fw-semibold">Rodné příjmení</div>
+        <div>{{ obj.rodne_prijmeni|default:"—" }}</div>
+      </div>
+      <div class="col-md-4">
+        <div class="fw-semibold">Datum narození</div>
+        <div>{{ obj.datum_narozeni }}</div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="fw-semibold">Místo narození</div>
+        <div>{{ obj.misto_narozeni }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">Státní občanství</div>
+        <div>{{ obj.statni_obcanstvi }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">Rodinný stav</div>
+        <div>{{ obj.rodinny_stav }}</div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="fw-semibold">Telefon</div>
+        <div>{{ obj.telefon }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">E-mail</div>
+        <div>{{ obj.email }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">Rodné číslo</div>
+        <div>{{ obj.rodne_cislo }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">Zdravotní pojišťovna</div>
+        <div>{{ obj.zdravotni_pojistovna }}</div>
+      </div>
+
+      <div class="col-12 border-bottom pt-3 pb-2 mb-2">
+        <h6 class="mb-0 text-uppercase text-muted">Bankovní spojení</h6>
+      </div>
+      <div class="col-md-4">
+        <div class="fw-semibold">Číslo účtu</div>
+        <div>{{ obj.cislo_uctu }}</div>
+      </div>
+      <div class="col-md-2">
+        <div class="fw-semibold">Kód banky</div>
+        <div>{{ obj.kod_banky }}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="fw-semibold">Název banky</div>
+        <div>{{ obj.nazev_banky }}</div>
+      </div>
+
+      <div class="col-12 border-bottom pt-3 pb-2 mb-2">
+        <h6 class="mb-0 text-uppercase text-muted">Trvalé bydliště</h6>
+      </div>
+      <div class="col-md-6">
+        <div class="fw-semibold">Ulice a č.p.</div>
+        <div>{{ obj.trv_ulice }} {{ obj.trv_cislo }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">PSČ</div>
+        <div>{{ obj.trv_psc }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">Město</div>
+        <div>{{ obj.trv_mesto }}</div>
+      </div>
+
+      <div class="col-12 border-bottom pt-3 pb-2 mb-2">
+        <h6 class="mb-0 text-uppercase text-muted">Doručovací adresa</h6>
+      </div>
+      <div class="col-md-6">
+        <div class="fw-semibold">Ulice a č.p.</div>
+        <div>{{ obj.dor_ulice|default:"—" }} {{ obj.dor_cislo }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">PSČ</div>
+        <div>{{ obj.dor_psc|default:"—" }}</div>
+      </div>
+      <div class="col-md-3">
+        <div class="fw-semibold">Město</div>
+        <div>{{ obj.dor_mesto|default:"—" }}</div>
+      </div>
+
+      <div class="col-12 border-bottom pt-3 pb-2 mb-2">
+        <h6 class="mb-0 text-uppercase text-muted">Zařazení</h6>
+      </div>
+      <div class="col-md-6">
+        <div class="fw-semibold">Provoz</div>
+        <div>{{ obj.provoz }}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="fw-semibold">Pozice</div>
+        <div>{{ obj.pozice }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

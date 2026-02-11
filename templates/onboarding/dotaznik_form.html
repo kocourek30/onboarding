@@ -1,0 +1,385 @@
+{% extends "portal/base_portal.html" %}
+
+{% block header_title %}
+<i class="fa-solid fa-user-pen me-2"></i> Nový osobní dotazník
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-header d-flex align-items-center">
+    <i class="fa-solid fa-id-card me-2 text-success"></i>
+    <strong>Osobní dotazník zaměstnance</strong>
+  </div>
+
+  <div class="card-body">
+    <form method="post" class="row g-3">
+      {% csrf_token %}
+
+      {# OSOBNÍ ÚDAJE #}
+      <div class="col-12 border-bottom pb-2 mb-3">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-user me-2 text-success"></i>
+          Osobní údaje
+        </h5>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">{{ form.titul.label }}:</label>
+        {{ form.titul }}
+      </div>
+      <div class="col-md-5">
+        <label class="form-label">{{ form.jmeno.label }}:</label>
+        {{ form.jmeno }}
+      </div>
+      <div class="col-md-5">
+        <label class="form-label">{{ form.prijmeni.label }}:</label>
+        {{ form.prijmeni }}
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">{{ form.rodne_prijmeni.label }}:</label>
+        {{ form.rodne_prijmeni }}
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">{{ form.datum_narozeni.label }}:</label>
+        {{ form.datum_narozeni }}
+      </div>
+      <div class="col-md-8">
+        <label class="form-label">{{ form.misto_narozeni.label }}:</label>
+        {{ form.misto_narozeni }}
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">{{ form.statni_obcanstvi.label }}:</label>
+        {{ form.statni_obcanstvi }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.rodinny_stav.label }}:</label>
+        {{ form.rodinny_stav }}
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">{{ form.telefon.label }}:</label>
+        {{ form.telefon }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.email.label }}:</label>
+        {{ form.email }}
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">{{ form.rodne_cislo.label }}:</label>
+        {{ form.rodne_cislo }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.zdravotni_pojistovna.label }}:</label>
+        {{ form.zdravotni_pojistovna }}
+      </div>
+
+      {# BANKA #}
+      <div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-piggy-bank me-2 text-success"></i>
+          Bankovní spojení
+        </h5>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">{{ form.cislo_uctu.label }}:</label>
+        {{ form.cislo_uctu }}
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">{{ form.kod_banky.label }}:</label>
+        {{ form.kod_banky }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{{ form.nazev_banky.label }}:</label>
+        {{ form.nazev_banky }}
+      </div>
+
+      {# TRVALÉ BYDLIŠTĚ #}
+      <div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-house me-2 text-success"></i>
+          Adresa trvalého bydliště
+        </h5>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">{{ form.trv_ulice.label }}:</label>
+        {{ form.trv_ulice }}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{{ form.trv_cislo.label }}:</label>
+        {{ form.trv_cislo }}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{{ form.trv_psc.label }}:</label>
+        {{ form.trv_psc }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.trv_mesto.label }}:</label>
+        {{ form.trv_mesto }}
+      </div>
+
+      {# DORUČOVACÍ ADRESA #}
+      <div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-envelope-open-text me-2 text-success"></i>
+          Doručovací adresa
+        </h5>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="form-check">
+          {{ form.dorucovaci_odlisna }}
+          <label class="form-check-label" for="{{ form.dorucovaci_odlisna.id_for_label }}">
+            {{ form.dorucovaci_odlisna.label }}
+          </label>
+        </div>
+      </div>
+
+      <div id="dorucovaci-adresa-fields" class="row g-3" style="display: none;">
+        <div class="col-md-6">
+          <label class="form-label">{{ form.dor_ulice.label }}:</label>
+          {{ form.dor_ulice }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">{{ form.dor_cislo.label }}:</label>
+          {{ form.dor_cislo }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">{{ form.dor_psc.label }}:</label>
+          {{ form.dor_psc }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">{{ form.dor_mesto.label }}:</label>
+          {{ form.dor_mesto }}
+        </div>
+      </div>
+
+      {# DŮCHODY #}
+      <div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-person-cane me-2 text-success"></i>
+          Informace o pobírání důchodu
+        </h5>
+      </div>
+
+      <div class="col-12 d-flex flex-wrap gap-4">
+        <div class="form-check">
+          {{ form.duchod_predcasny }}
+          <label class="form-check-label" for="{{ form.duchod_predcasny.id_for_label }}">
+            {{ form.duchod_predcasny.label }}
+          </label>
+        </div>
+        <div class="form-check">
+          {{ form.duchod_starobni }}
+          <label class="form-check-label" for="{{ form.duchod_starobni.id_for_label }}">
+            {{ form.duchod_starobni.label }}
+          </label>
+        </div>
+        <div class="form-check">
+          {{ form.duchod_invalidni }}
+          <label class="form-check-label" for="{{ form.duchod_invalidni.id_for_label }}">
+            {{ form.duchod_invalidni.label }}
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">{{ form.duchod_datum_vzniku.label }}:</label>
+        {{ form.duchod_datum_vzniku }}
+      </div>
+      <div class="col-md-8">
+        <label class="form-label">{{ form.duchod_kdo_vyplaci.label }}:</label>
+        {{ form.duchod_kdo_vyplaci }}
+      </div>
+
+      {# VZDĚLÁNÍ #}
+      <div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-graduation-cap me-2 text-success"></i>
+          Vzdělání
+        </h5>
+      </div>
+
+      <div class="col-12">
+        <div class="form-check">
+          {{ form.vzdelani_zakladni }}
+          <label class="form-check-label" for="{{ form.vzdelani_zakladni.id_for_label }}">
+            {{ form.vzdelani_zakladni.label }}
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-check">
+          {{ form.vzdelani_sou }}
+          <label class="form-check-label" for="{{ form.vzdelani_sou.id_for_label }}">
+            {{ form.vzdelani_sou.label }}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.vzdelani_sou_rok_ukonceni.label }}:</label>
+        {{ form.vzdelani_sou_rok_ukonceni }}
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-check">
+          {{ form.vzdelani_ss }}
+          <label class="form-check-label" for="{{ form.vzdelani_ss.id_for_label }}">
+            {{ form.vzdelani_ss.label }}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.vzdelani_ss_mesto.label }}:</label>
+        {{ form.vzdelani_ss_mesto }}
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-check">
+          {{ form.vzdelani_gymnazium }}
+          <label class="form-check-label" for="{{ form.vzdelani_gymnazium.id_for_label }}">
+            {{ form.vzdelani_gymnazium.label }}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.vzdelani_gymnazium_skola.label }}:</label>
+        {{ form.vzdelani_gymnazium_skola }}
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-check">
+          {{ form.vzdelani_vs }}
+          <label class="form-check-label" for="{{ form.vzdelani_vs.id_for_label }}">
+            {{ form.vzdelani_vs.label }}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.vzdelani_vs_obor.label }}:</label>
+        {{ form.vzdelani_vs_obor }}
+      </div>
+
+      <div class="col-12 mt-2">
+        <label class="form-label d-block">Zakončeno:</label>
+        <div class="form-check form-check-inline">
+          {{ form.vzdelani_zakončeno_vyucni_list }}
+          <label class="form-check-label" for="{{ form.vzdelani_zakončeno_vyucni_list.id_for_label }}">
+            {{ form.vzdelani_zakončeno_vyucni_list.label }}
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          {{ form.vzdelani_zakončeno_maturita }}
+          <label class="form-check-label" for="{{ form.vzdelani_zakončeno_maturita.id_for_label }}">
+            {{ form.vzdelani_zakončeno_maturita.label }}
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          {{ form.vzdelani_zakončeno_diplom }}
+          <label class="form-check-label" for="{{ form.vzdelani_zakončeno_diplom.id_for_label }}">
+            {{ form.vzdelani_zakončeno_diplom.label }}
+          </label>
+        </div>
+      </div>
+
+      {# POSLEDNÍ ZAMĚSTNAVATEL #}
+      <div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+        <h5 class="mb-0">
+          <i class="fa-solid fa-building-user me-2 text-success"></i>
+          Poslední zaměstnavatel
+        </h5>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">{{ form.posledni_zamestnavatel_nazev.label }}:</label>
+        {{ form.posledni_zamestnavatel_nazev }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.posledni_zamestnavatel_pozice.label }}:</label>
+        {{ form.posledni_zamestnavatel_pozice }}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{{ form.posledni_zamestnavatel_od.label }}:</label>
+        {{ form.posledni_zamestnavatel_od }}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{{ form.posledni_zamestnavatel_do.label }}:</label>
+        {{ form.posledni_zamestnavatel_do }}
+      </div>
+
+      {# ZAŘAZENÍ #}
+<div class="col-12 border-bottom pt-3 pb-2 mb-3 mt-2">
+  <h5 class="mb-0">
+    <i class="fa-solid fa-briefcase me-2 text-success"></i>
+    Zařazení
+  </h5>
+</div>
+
+<div class="col-md-6">
+  <label class="form-label">{{ form.provoz.label }}:</label>
+  {{ form.provoz }}
+</div>
+<div class="col-md-6">
+  <label class="form-label">{{ form.pozice.label }}:</label>
+  {{ form.pozice }}
+</div>
+
+<div class="col-md-4">
+  <label class="form-label">{{ form.typ_pomeru.label }}:</label>
+  {{ form.typ_pomeru }}
+</div>
+<div class="col-md-4">
+  <label class="form-label">{{ form.pomer_do.label }}:</label>
+  {{ form.pomer_do }}
+  <div class="form-text">Vyplň pouze u poměru na dobu určitou.</div>
+</div>
+<div class="col-md-4">
+  <label class="form-label">{{ form.nastup_datum.label }}:</label>
+  {{ form.nastup_datum }}
+</div>
+
+<div class="col-md-4">
+  <label class="form-label">{{ form.zkusebni_doba_mesice.label }}:</label>
+  {{ form.zkusebni_doba_mesice }}
+</div>
+<div class="col-md-4">
+  <label class="form-label">{{ form.tydenni_uvazek_hodin.label }}:</label>
+  {{ form.tydenni_uvazek_hodin }}
+</div>
+<div class="col-md-4">
+  <label class="form-label">{{ form.rozvrzeni_pracovni_doby.label }}:</label>
+  {{ form.rozvrzeni_pracovni_doby }}
+</div>
+
+
+      <div class="col-12 mt-4 d-flex justify-content-end">
+        <button type="submit" class="btn btn-gth">
+          <i class="fa-solid fa-floppy-disk me-1"></i> Uložit dotazník
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkbox = document.getElementById("{{ form.dorucovaci_odlisna.id_for_label }}");
+    const block = document.getElementById("dorucovaci-adresa-fields");
+    if (!checkbox || !block) return;
+
+    function toggleBlock() {
+      block.style.display = checkbox.checked ? "flex" : "none";
+    }
+    checkbox.addEventListener("change", toggleBlock);
+    toggleBlock();
+  });
+</script>
+{% endblock %}
